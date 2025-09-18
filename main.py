@@ -78,11 +78,11 @@ def main():
     if battery_data:
         try:
             # Initialize analyzer
-            analyzer = BatteryReportBuilder()
+            report_builder = BatteryReportBuilder()
             
             # Generate report
             with st.spinner("🔍 Analyzing battery data..."):
-                report = analyzer.generate_battery_report(battery_data)
+                report = report_builder.generate_battery_report(battery_data)
             
             if 'error' in report:
                 st.error(f"❌ {report['error']}")
@@ -105,10 +105,22 @@ def main():
         except Exception as e:
             st.error(f"❌ Error generating report: {str(e)}")
             st.exception(e)
+        
+        pdf_buffer = report_builder.create_pdf(report)
+
+        # Add download button
+        st.download_button(
+            label="📥 Download PDF",
+            data=pdf_buffer,
+            file_name="report.pdf",
+            mime="application/pdf"
+        )
     
     else:
         # Show instructions when no data is loaded
         st.info("👆 Please upload a JSON file or select sample data to get started.")
+        
+
 
 
 if __name__ == "__main__":
