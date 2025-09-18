@@ -1,7 +1,7 @@
 import json
 import streamlit as st
 
-from analyzer.battery_analyzer import BatteryAnalyzer
+from analyzer.battery_report import BatteryReportBuilder
 
 # Page configuration
 st.set_page_config(
@@ -12,27 +12,27 @@ st.set_page_config(
 )
 
 
-def display_battery_health_metrics(report):
+def display_battery_health_metrics(battery_health):
     """Display key battery health metrics"""
     col1, col2, col3 = st.columns(3)
-    
+
     with col1:
-        soh = report['battery_health']['state_of_health_percent']
+        soh = battery_health.state_of_health_percent
         st.metric(
             label="State of Health",
             value=f"{soh}%",
         )
-        
+
     with col2:
-        charge_cycles_count = report['battery_health']['charge_cycles']
+        charge_cycles_count = battery_health.charge_cycles
         st.metric(
             label="Charge Cycles Count",
             value=charge_cycles_count,
             delta=None
         )
-    
+
     with col3:
-        discharge_cycles_count = report['battery_health']['discharge_cycles']
+        discharge_cycles_count = battery_health.discharge_cycles
         st.metric(
             label="Discharge Cycles Count",
             value=discharge_cycles_count,
@@ -40,30 +40,40 @@ def display_battery_health_metrics(report):
         )
 
 
-def display_anomalies(report):
+def display_anomalies(anomalies):
     """Display detected anomalies with appropriate styling"""
     
     st.subheader("🔍 Anomaly Detection")
     
-    # Individual anomaly details
-    for anomaly_type, anomaly_data in report['anomalies'].items():
-        st.write(f"**{anomaly_type.replace('_', ' ').title()}**: {anomaly_data['message']}")
-        
-        # Show additional details for specific anomalies
-        if anomaly_type == "voltage_imbalance" and anomaly_data['anomaly']:
-            st.write(f"  - Voltage spread: {anomaly_data['voltage_spread']}V")
-            st.write(f"  - Min voltage: {anomaly_data['min_voltage']}V")
-            st.write(f"  - Max voltage: {anomaly_data['max_voltage']}V")
-        
-        elif anomaly_type == "overheating" and anomaly_data['anomaly']:
-            st.write(f"  - Max temperature: {anomaly_data['max_temperature']}°C")
-            st.write(f"  - Hot cells: {anomaly_data['hot_cells_count']}")
-            if anomaly_data['critical_cells_count'] > 0:
-                st.write(f"  - Critical cells: {anomaly_data['critical_cells_count']}")
-        
-        elif anomaly_type == "capacity_fade" and anomaly_data['anomaly']:
-            st.write(f"  - Capacity loss: {anomaly_data['capacity_loss_percent']}%")
-        
+    for anomaly_type, anomaly_data in anomalies.items():
+        st.write(f"**{anomaly_type.replace('_', ' ').title()}**: {anomaly_data.message}")
+        isAnomaly = anomaly_data.anomaly
+        if not isAnomaly:
+            continue
+        # Individual anomaly details
+        if anomaly_type == 'voltage_imbalance':
+            st.write(f"  - Voltage spread: {anomaly_data.voltage_spread}V")
+            st.write(f"  - Min voltage: {anomaly_data.min_voltage}V")
+            st.write(f"  - Max voltage: {anomaly_data.max_voltage}V")
+            
+        elif anomaly_type == 'overheating':
+            st.write(f"  - Max temperature: {anomaly_data.max_temperature}°C")
+            st.write(f"  - Hot cells: {anomaly_data.hot_cells_count}")
+            if anomaly_data.critical_cells_count > 0:
+                st.write(f"  - Critical cells: {anomaly_data.critical_cells_count}")
+                
+        elif anomaly_type == 'capacity_fade':
+            st.write(f"  - Capacity loss: {anomaly_data.capacity_loss_percent}%")
+            
+        elif anomaly_type == 'soc_drift':            
+            st.write(f"  - Unrealistic changes: {anomaly_data.unrealistic_changes_count}")
+            if anomaly_data.unrealistic_changes:
+                st.write(f"  - Recent changes:")
+                for i, change in enumerate(anomaly_data.unrealistic_changes[:3]):  # Show first 3
+                    st.write(f"    • {change.get('timestamp', 'Unknown')}: {change.get('change', 'N/A')}%:{change.get('event')}")
+                if len(anomaly_data.unrealistic_changes) > 3:
+                    st.write(f"    • ... and {len(anomaly_data.unrealistic_changes) - 3} more")
+
         st.markdown('</div>', unsafe_allow_html=True)
 
 
@@ -95,7 +105,7 @@ def main():
     if battery_data:
         try:
             # Initialize analyzer
-            analyzer = BatteryAnalyzer()
+            analyzer = BatteryReportBuilder()
             
             # Generate report
             with st.spinner("🔍 Analyzing battery data..."):
@@ -111,13 +121,13 @@ def main():
             # Vehicle info
             col1, col2 = st.columns(2)
             with col1:
-                st.write(f"**Vehicle ID:** {report['vehicle_id']}")
+                st.write(f"**Vehicle ID:** {report.vehicle_id}")
             with col2:
-                st.write(f"**Report Generated:** {report['timestamp']}")
+                st.write(f"**Report Generated:** {report.timestamp}")
             
-            display_battery_health_metrics(report)
+            display_battery_health_metrics(report.battery_health)
 
-            display_anomalies(report)
+            display_anomalies(report.anomalies)
 
         except Exception as e:
             st.error(f"❌ Error generating report: {str(e)}")
