@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import TypeVar
+from typing import TypeVar, Any
 
 
 class BatteryHealthData(BaseModel):
@@ -48,8 +48,13 @@ T = TypeVar(
 )
 
 
+class Anomaly(BaseModel):
+    anomaly_data: T
+    display_in_streamlit: Any
+
+
 class BatteryHealthReport(BaseModel):
     vehicle_id: str = Field(description="Vehicle identifier")
     timestamp: str = Field(description="Report generation timestamp")
     battery_health: BatteryHealthData = Field(description="Battery health metrics")
-    anomalies: dict[str, T] = Field(description="Anomaly detection results")
+    anomalies: dict[str, Anomaly] = Field(description="Anomaly detection results")

@@ -42,38 +42,11 @@ def display_battery_health_metrics(battery_health):
 
 def display_anomalies(anomalies):
     """Display detected anomalies with appropriate styling"""
-    
-    st.subheader("🔍 Anomaly Detection")
-    
-    for anomaly_type, anomaly_data in anomalies.items():
-        st.write(f"**{anomaly_type.replace('_', ' ').title()}**: {anomaly_data.message}")
-        isAnomaly = anomaly_data.anomaly
-        if not isAnomaly:
-            continue
-        # Individual anomaly details
-        if anomaly_type == 'voltage_imbalance':
-            st.write(f"  - Voltage spread: {anomaly_data.voltage_spread}V")
-            st.write(f"  - Min voltage: {anomaly_data.min_voltage}V")
-            st.write(f"  - Max voltage: {anomaly_data.max_voltage}V")
-            
-        elif anomaly_type == 'overheating':
-            st.write(f"  - Max temperature: {anomaly_data.max_temperature}°C")
-            st.write(f"  - Hot cells: {anomaly_data.hot_cells_count}")
-            if anomaly_data.critical_cells_count > 0:
-                st.write(f"  - Critical cells: {anomaly_data.critical_cells_count}")
-                
-        elif anomaly_type == 'capacity_fade':
-            st.write(f"  - Capacity loss: {anomaly_data.capacity_loss_percent}%")
-            
-        elif anomaly_type == 'soc_drift':            
-            st.write(f"  - Unrealistic changes: {anomaly_data.unrealistic_changes_count}")
-            if anomaly_data.unrealistic_changes:
-                st.write(f"  - Recent changes:")
-                for i, change in enumerate(anomaly_data.unrealistic_changes[:3]):  # Show first 3
-                    st.write(f"    • {change.get('timestamp', 'Unknown')}: {change.get('change', 'N/A')}%:{change.get('event')}")
-                if len(anomaly_data.unrealistic_changes) > 3:
-                    st.write(f"    • ... and {len(anomaly_data.unrealistic_changes) - 3} more")
 
+    st.subheader("🔍 Anomaly Detection")
+
+    for _, anomaly in anomalies.items():
+        anomaly.display_in_streamlit(anomaly.anomaly_data, st)
         st.markdown('</div>', unsafe_allow_html=True)
 
 

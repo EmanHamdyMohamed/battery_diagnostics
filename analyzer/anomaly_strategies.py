@@ -31,6 +31,11 @@ class AnomalyDetectionStrategy(ABC):
         """Return the type of anomaly this strategy detects"""
         pass
 
+    @abstractmethod
+    def display_in_streamlit(self, anomaly_data: T, st) -> None:
+        """Display the anomaly data in Streamlit"""
+        pass
+
 
 class VoltageImbalanceStrategy(AnomalyDetectionStrategy):
     """Strategy for detecting voltage imbalance between cells"""
@@ -58,6 +63,14 @@ class VoltageImbalanceStrategy(AnomalyDetectionStrategy):
             message=f"Voltage imbalance detected: {voltage_spread}V spread" if anomaly else "Voltage levels normal"
         )
 
+    def display_in_streamlit(self, anomaly_data: VoltageImbalance, st):
+        st.write(f"**{self.get_anomaly_type().replace('_', ' ').title()}**: {anomaly_data.message}")
+        if not anomaly_data.anomaly:
+            return
+        st.write(f"  - Voltage spread: {anomaly_data.voltage_spread}V")
+        st.write(f"  - Min voltage: {anomaly_data.min_voltage}V")
+        st.write(f"  - Max voltage: {anomaly_data.max_voltage}V")
+
 
 class OverheatingStrategy(AnomalyDetectionStrategy):
     """Strategy for detecting cell overheating"""
@@ -84,6 +97,15 @@ class OverheatingStrategy(AnomalyDetectionStrategy):
             critical_cells_count=len(critical_cells),
             message=f"Overheating detected: {len(hot_cells)} cells above {self.overheating_threshold}°C" if anomaly else "Temperature levels normal"
         )
+        
+    def display_in_streamlit(self, anomaly_data: Overheating, st):
+        st.write(f"**{self.get_anomaly_type().replace('_', ' ').title()}**: {anomaly_data.message}")
+        if not anomaly_data.anomaly:
+            return
+        st.write(f"  - Max temperature: {anomaly_data.max_temperature}°C")
+        st.write(f"  - Hot cells: {anomaly_data.hot_cells_count}")
+        if anomaly_data.critical_cells_count > 0:
+            st.write(f"  - Critical cells: {anomaly_data.critical_cells_count}")
 
 
 class CapacityFadeStrategy(AnomalyDetectionStrategy):
@@ -109,6 +131,12 @@ class CapacityFadeStrategy(AnomalyDetectionStrategy):
             message=f"Significant capacity fade detected: {capacity_loss:.1f}% loss" if anomaly else "Capacity levels normal"
 
         )
+        
+    def display_in_streamlit(self, anomaly_data: CapacityFade, st):
+        st.write(f"**{self.get_anomaly_type().replace('_', ' ').title()}**: {anomaly_data.message}")
+        if not anomaly_data.anomaly:
+            return
+        st.write(f"  - Capacity loss: {anomaly_data.capacity_loss_percent}%")
 
 
 class SoCDriftStrategy(AnomalyDetectionStrategy):
@@ -134,12 +162,26 @@ class SoCDriftStrategy(AnomalyDetectionStrategy):
         
         anomaly = len(unrealistic_changes) > 0
         
-        return {
-            "anomaly": anomaly,
-            "unrealistic_changes_count": len(unrealistic_changes),
-            "unrealistic_changes": unrealistic_changes,
-            "message": f"SoC drift detected: {len(unrealistic_changes)} unrealistic changes" if anomaly else "SoC estimation normal"
-        }
+        return SoCDrift(
+            anomaly=anomaly,
+            unrealistic_changes_count=len(unrealistic_changes),
+            unrealistic_changes=unrealistic_changes,
+            message=f"SoC drift detected: {len(unrealistic_changes)} unrealistic changes" if anomaly else "SoC estimation normal"
+        )
+
+
+    def display_in_streamlit(self, anomaly_data: SoCDrift, st):
+        st.write(f"**{self.get_anomaly_type().replace('_', ' ').title()}**: {anomaly_data.message}")
+        if not anomaly_data.anomaly:
+            return
+
+        st.write(f"  - Unrealistic changes: {anomaly_data.unrealistic_changes_count}")
+        if anomaly_data.unrealistic_changes:
+            st.write(f"  - Recent changes:")
+            for i, change in enumerate(anomaly_data.unrealistic_changes[:3]):  # Show first 3
+                st.write(f"    • {change.get('timestamp', 'Unknown')}: {change.get('change', 'N/A')}%:{change.get('event')}")
+            if len(anomaly_data.unrealistic_changes) > 3:
+                st.write(f"    • ... and {len(anomaly_data.unrealistic_changes) - 3} more")
 
 
 class AnomalyDetectionContext:
@@ -161,6 +203,9 @@ class AnomalyDetectionContext:
 
         for strategy in self.strategies:
             anomaly_type = strategy.get_anomaly_type()
-            results[anomaly_type] = strategy.detect(battery_data)
+            results[anomaly_type] = {
+                'anomaly_data': strategy.detect(battery_data),
+                'display_in_streamlit': strategy.display_in_streamlit
+            }
 
         return results

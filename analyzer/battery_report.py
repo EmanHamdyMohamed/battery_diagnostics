@@ -29,7 +29,7 @@ class BatteryReportBuilder:
                 timestamp=battery_data.get('timestamp', datetime.now().isoformat()),
                 battery_health=battery_health,
                 anomalies=anomalies,
-            )            
+            )
             return report
             
         except Exception as e:
