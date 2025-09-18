@@ -169,7 +169,6 @@ class SoCDriftStrategy(AnomalyDetectionStrategy):
             message=f"SoC drift detected: {len(unrealistic_changes)} unrealistic changes" if anomaly else "SoC estimation normal"
         )
 
-
     def display_in_streamlit(self, anomaly_data: SoCDrift, st):
         st.write(f"**{self.get_anomaly_type().replace('_', ' ').title()}**: {anomaly_data.message}")
         if not anomaly_data.anomaly:

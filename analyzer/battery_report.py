@@ -27,8 +27,6 @@ class BatteryReportBuilder:
         pdf.add_page()
 
         # Draw title
-        # pdf.set_font("Arial", size=16, style='B')
-        # pdf.cell(0, 20, "Battery Health Report", align="C", ln=True)
         self.draw_title(pdf, "Battery Health Report")
 
         # Add vehicle id
