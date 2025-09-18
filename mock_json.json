@@ -1,0 +1,327 @@
+{
+  "vehicle_id": "EV12345",
+  "timestamp": "2025-01-16T18:30:00Z",
+  "battery_usage_log": [
+    {
+      "timestamp": "2025-01-15T08:00:00Z",
+      "soc_start": 20,
+      "soc_end": 10,
+      "event": "discharge",
+      "current_amps": -45.2,
+      "power_kw": -15.8,
+      "energy_kwh": -6.9
+    },
+    {
+      "timestamp": "2025-01-15T12:00:00Z",
+      "soc_start": 10,
+      "soc_end": 85,
+      "event": "charge",
+      "current_amps": 32.1,
+      "power_kw": 22.4,
+      "energy_kwh": 51.4
+    },
+    {
+      "timestamp": "2025-01-15T18:00:00Z",
+      "soc_start": 85,
+      "soc_end": 40,
+      "event": "discharge",
+      "current_amps": -38.7,
+      "power_kw": -13.2,
+      "energy_kwh": -30.8
+    },
+    {
+      "timestamp": "2025-01-16T09:00:00Z",
+      "soc_start": 40,
+      "soc_end": 100,
+      "event": "charge",
+      "current_amps": 28.9,
+      "power_kw": 20.1,
+      "energy_kwh": 41.1
+    },
+    {
+      "timestamp": "2025-01-16T14:00:00Z",
+      "soc_start": 100,
+      "soc_end": 75,
+      "event": "discharge",
+      "current_amps": -25.3,
+      "power_kw": -8.7,
+      "energy_kwh": -17.1
+    },
+    {
+      "timestamp": "2025-01-16T14:00:00Z",
+      "soc_start": 100,
+      "soc_end": 75,
+      "event": "discharge",
+      "current_amps": -25.3,
+      "power_kw": -8.7,
+      "energy_kwh": -17.1
+    }
+  ],
+  "battery_pack": {
+    "baseline_capacity_kWh": 75.0,
+    "current_capacity_kWh": 68.5,
+    "pack_voltage": 356.4,
+    "pack_current": -25.3,
+    "pack_temperature": 35.2,
+    "internal_resistance": 0.35
+  },
+  "cells": [
+    {
+      "cell_id": 1,
+      "voltage": 3.91,
+      "temperature": 34.2,
+      "resistance_mohm": 2.8
+    },
+    {
+      "cell_id": 2,
+      "voltage": 3.89,
+      "temperature": 33.8,
+      "resistance_mohm": 2.9
+    },
+    {
+      "cell_id": 3,
+      "voltage": 3.92,
+      "temperature": 34.5,
+      "resistance_mohm": 2.7
+    },
+    {
+      "cell_id": 4,
+      "voltage": 3.88,
+      "temperature": 34.1,
+      "resistance_mohm": 3.0
+    },
+    {
+      "cell_id": 5,
+      "voltage": 3.90,
+      "temperature": 33.9,
+      "resistance_mohm": 2.8
+    },
+    {
+      "cell_id": 6,
+      "voltage": 3.93,
+      "temperature": 34.3,
+      "resistance_mohm": 2.6
+    },
+    {
+      "cell_id": 7,
+      "voltage": 3.87,
+      "temperature": 34.0,
+      "resistance_mohm": 3.1
+    },
+    {
+      "cell_id": 8,
+      "voltage": 3.91,
+      "temperature": 34.4,
+      "resistance_mohm": 2.9
+    },
+    {
+      "cell_id": 9,
+      "voltage": 3.65,
+      "temperature": 47.8,
+      "resistance_mohm": 4.2
+    },
+    {
+      "cell_id": 10,
+      "voltage": 3.89,
+      "temperature": 34.2,
+      "resistance_mohm": 2.8
+    },
+    {
+      "cell_id": 11,
+      "voltage": 3.92,
+      "temperature": 34.6,
+      "resistance_mohm": 2.7
+    },
+    {
+      "cell_id": 12,
+      "voltage": 3.88,
+      "temperature": 34.0,
+      "resistance_mohm": 3.0
+    },
+    {
+      "cell_id": 13,
+      "voltage": 3.90,
+      "temperature": 33.7,
+      "resistance_mohm": 2.9
+    },
+    {
+      "cell_id": 14,
+      "voltage": 3.94,
+      "temperature": 34.8,
+      "resistance_mohm": 2.5
+    },
+    {
+      "cell_id": 15,
+      "voltage": 3.86,
+      "temperature": 33.9,
+      "resistance_mohm": 3.2
+    },
+    {
+      "cell_id": 16,
+      "voltage": 3.91,
+      "temperature": 34.1,
+      "resistance_mohm": 2.8
+    },
+    {
+      "cell_id": 17,
+      "voltage": 3.89,
+      "temperature": 34.3,
+      "resistance_mohm": 2.9
+    },
+    {
+      "cell_id": 18,
+      "voltage": 3.93,
+      "temperature": 34.5,
+      "resistance_mohm": 2.6
+    },
+    {
+      "cell_id": 19,
+      "voltage": 3.87,
+      "temperature": 33.8,
+      "resistance_mohm": 3.1
+    },
+    {
+      "cell_id": 20,
+      "voltage": 3.52,
+      "temperature": 34.2,
+      "resistance_mohm": 5.8
+    },
+    {
+      "cell_id": 21,
+      "voltage": 3.90,
+      "temperature": 34.0,
+      "resistance_mohm": 2.8
+    },
+    {
+      "cell_id": 22,
+      "voltage": 3.92,
+      "temperature": 34.4,
+      "resistance_mohm": 2.7
+    },
+    {
+      "cell_id": 23,
+      "voltage": 3.88,
+      "temperature": 34.1,
+      "resistance_mohm": 3.0
+    },
+    {
+      "cell_id": 24,
+      "voltage": 3.91,
+      "temperature": 33.9,
+      "resistance_mohm": 2.9
+    },
+    {
+      "cell_id": 25,
+      "voltage": 3.89,
+      "temperature": 34.3,
+      "resistance_mohm": 2.8
+    },
+    {
+      "cell_id": 26,
+      "voltage": 3.93,
+      "temperature": 34.6,
+      "resistance_mohm": 2.6
+    },
+    {
+      "cell_id": 27,
+      "voltage": 3.87,
+      "temperature": 34.0,
+      "resistance_mohm": 3.1
+    },
+    {
+      "cell_id": 28,
+      "voltage": 3.90,
+      "temperature": 34.2,
+      "resistance_mohm": 2.9
+    },
+    {
+      "cell_id": 29,
+      "voltage": 3.92,
+      "temperature": 34.5,
+      "resistance_mohm": 2.7
+    },
+    {
+      "cell_id": 30,
+      "voltage": 3.88,
+      "temperature": 33.8,
+      "resistance_mohm": 3.0
+    },
+    {
+      "cell_id": 31,
+      "voltage": 3.91,
+      "temperature": 34.1,
+      "resistance_mohm": 2.8
+    },
+    {
+      "cell_id": 32,
+      "voltage": 3.89,
+      "temperature": 34.4,
+      "resistance_mohm": 2.9
+    },
+    {
+      "cell_id": 33,
+      "voltage": 3.94,
+      "temperature": 34.7,
+      "resistance_mohm": 2.5
+    },
+    {
+      "cell_id": 34,
+      "voltage": 3.86,
+      "temperature": 33.9,
+      "resistance_mohm": 3.2
+    },
+    {
+      "cell_id": 35,
+      "voltage": 3.90,
+      "temperature": 34.2,
+      "resistance_mohm": 2.8
+    },
+    {
+      "cell_id": 36,
+      "voltage": 3.92,
+      "temperature": 34.0,
+      "resistance_mohm": 2.7
+    },
+    {
+      "cell_id": 37,
+      "voltage": 3.88,
+      "temperature": 34.3,
+      "resistance_mohm": 3.0
+    },
+    {
+      "cell_id": 38,
+      "voltage": 3.91,
+      "temperature": 34.1,
+      "resistance_mohm": 2.9
+    },
+    {
+      "cell_id": 39,
+      "voltage": 3.89,
+      "temperature": 49.6,
+      "resistance_mohm": 3.9
+    },
+    {
+      "cell_id": 40,
+      "voltage": 3.93,
+      "temperature": 34.5,
+      "resistance_mohm": 2.6
+    }
+  ],
+  "baseline_specs": {
+    "cell_baseline_resistance_mohm": 2.5,
+    "max_operating_temperature_c": 45.0,
+    "voltage_imbalance_threshold": 0.15,
+    "resistance_degradation_threshold_percent": 50.0,
+    "manufacturing_date": "2022-03-15"
+  },
+  "diagnostic_flags": {
+    "bms_errors": [
+      "CELL_IMBALANCE_WARNING",
+      "THERMAL_EVENT_DETECTED"
+    ],
+    "thermal_events": 2,
+    "overvoltage_events": 0,
+    "undervoltage_events": 1,
+    "overcurrent_events": 0
+  }
+}
