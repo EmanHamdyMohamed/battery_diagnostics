@@ -72,31 +72,31 @@ def main():
             st.error("❌ Invalid JSON file. Please upload a valid JSON file.")
         except Exception as e:
             st.error(f"❌ Error reading file: {str(e)}")
-    
+
     # Generate report if data is available
     if battery_data:
         try:
             # Initialize analyzer
             report_builder = BatteryReportBuilder()
-            
+
             # Generate report
             with st.spinner("🔍 Analyzing battery data..."):
                 report = report_builder.generate_battery_report(battery_data)
-            
+
             if 'error' in report:
                 st.error(f"❌ {report['error']}")
                 return
-            
+
             # Display report
             st.header("📊 Battery Health Report")
-            
+
             # Vehicle info
             col1, col2 = st.columns(2)
             with col1:
                 st.write(f"**Vehicle ID:** {report.vehicle_id}")
             with col2:
                 st.write(f"**Report Generated:** {report.timestamp}")
-            
+
             display_battery_health_metrics(report.battery_health)
 
             display_anomalies(report.anomalies)
@@ -104,7 +104,7 @@ def main():
         except Exception as e:
             st.error(f"❌ Error generating report: {str(e)}")
             st.exception(e)
-        
+
         pdf_buffer = report_builder.create_pdf(report)
 
         # Add download button
@@ -114,13 +114,10 @@ def main():
             file_name="report.pdf",
             mime="application/pdf"
         )
-    
+
     else:
         # Show instructions when no data is loaded
         st.info("👆 Please upload a JSON file or select sample data to get started.")
-        
-
-
 
 if __name__ == "__main__":
     main()
