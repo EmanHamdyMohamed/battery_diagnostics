@@ -53,7 +53,6 @@ def display_anomalies(anomalies):
 def main():
     # Header
     st.markdown('<h1 class="main-header">🔋 Battery Health Report</h1>', unsafe_allow_html=True)
-    st.markdown("Upload a battery diagnostic JSON file to generate a comprehensive health report.")
     
     # File upload
     st.header("📤 Upload Battery Data")
